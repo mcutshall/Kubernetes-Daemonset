@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: test-daemonset
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      name: test-daemonset #determines which pods belong to the daemonset
+  template:
+    metadata:
+      labels:
+        name: test-daemonset
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: vagrant #node label selector. Determines which nodes the pod should be scheduled to.
+      containers:
+      - name: test-daemonset
+        image: hello-python:latest
+        imagePullPolicy: IfNotPresent

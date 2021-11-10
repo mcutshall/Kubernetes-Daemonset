@@ -1,0 +1,3 @@
+###### Requirements Without Version Specifiers ######
+kubernetes
+pytz
