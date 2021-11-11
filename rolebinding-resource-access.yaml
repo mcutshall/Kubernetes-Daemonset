@@ -4,10 +4,10 @@ metadata:
   name: resource-access-binding
   namespace: default
 subjects:
-  - kind: User
-    name: "system:serviceaccount:default:default"
-    apiGroup: ""
-  roleRef:
-    kind: Role
-    name: resource-access
-    apiGroup: ""
+- kind: User
+  name: "system:serviceaccount:default:default"
+  apiGroup: ""
+roleRef:
+  kind: Role
+  name: resource-access
+  apiGroup: ""
