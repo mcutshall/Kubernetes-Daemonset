@@ -31,15 +31,18 @@ def list_deployments(api):
 def check_deployment(api):
     config.load_incluster_config()
     api = client.AppsV1Api()
+    namespace = 'default'
 
-    ret = v1.list_deployment_for_all_namespaces(watch=False)
+    #ret = v1.list_deployment_for_all_namespaces(watch=False)
     api_instance = kubernetes.client.AppsV1Api(apt_client)
+    ret = v1.list_namespaced_deployment(namespace)
 
     name = ''
-    namespace = ''
-    pretty = 'false'
+    namespace = 'default'
+    pretty = 'False'
 
     for i in ret.items:
+        name = i.metadata.name
         resp = api_instance.read_namespaced_deployment_status(name, namespace, pretty=pretty)
         if(resp.status.conditions.status == False):
             delete_deployment(api, name)
