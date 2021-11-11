@@ -49,7 +49,6 @@ def check_deployment(api):
 
 def delete_deployment(api, dep_name):
     response = api.delete_namespaced_deployment(
-        #name = DEPLOYMENT_NAME,
         name = dep_name,
         namespace = "default",
         body = client.V1DeleteOptions(
@@ -57,7 +56,7 @@ def delete_deployment(api, dep_name):
             grace_period_seconds = 5
         ),
     )
-    print("\n[INFO] deployment %s deleted." %(DEPLOYMENT_NAME))
+    print("\n[INFO] deployment %s deleted." %(name))
 
 
 def hello_world():
