@@ -38,7 +38,6 @@ def check_deployment(api):
     ret = v1.list_namespaced_deployment(namespace)
 
     name = ''
-    namespace = 'default'
     pretty = 'False'
 
     for i in ret.items:
