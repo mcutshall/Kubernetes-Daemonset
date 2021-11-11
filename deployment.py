@@ -5,9 +5,9 @@ from kubernetes import client, config
 #DEPLOYMENT_NAME = "sv-kubernetes-example"
 
 def list_pods(api):
-    config.load_kube_config()
+    config.load_incluster_config()
 
-    v1 = client.CoreV1Api()
+    v1 = client.AppsV1Api()
     #ret = v1.list_pod_for_all_namespaces(watch=False)
     namespace = 'default'
     ret = v1.list_namespaced_pod(namespace)
@@ -16,9 +16,9 @@ def list_pods(api):
         print("%s\t%s\t%s" %(i.metadata.name, i.metadata.namespace, i.status.pod_ip))
 
 def list_deployments(api):
-    config.load_kube_config()
+    config.load_incluster_config()
 
-    v1 = client.CoreV1Api()
+    v1 = client.AppsV1Api()
     #ret = v1.list_deployment_for_all_namespaces(watch=False)
     namespace = 'default'
     ret = v1.list_namespaced_deployment(namespace)
@@ -29,7 +29,7 @@ def list_deployments(api):
         #print("%s\t\t%s\t%s" %(i.metadata.name, i.metadata.namespace, i.spec.template.spec.containers[0].image))
 
 def check_deployment(api):
-    config.load_kube_config()
+    config.load_incluster_config()
     api = client.AppsV1Api()
 
     ret = v1.list_deployment_for_all_namespaces(watch=False)
@@ -63,10 +63,10 @@ def hello_world():
 
 
 def main():
-    #config.load_kube_config()
-    #apps_v1 = client.AppsV1Api()
+    config.load_incluster_config()
+    apps_v1 = client.AppsV1Api()
 
-    #list_deployments(apps_v1)
+    list_deployments(apps_v1)
     #check_deployment(apps_v1)
 
     hello_world()
