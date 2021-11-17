@@ -33,7 +33,9 @@ General steps:
 
 Configuring Age Limit:
 
-The age limit of a deployment can be configured by passing a command line argument in the Dockerfile. Default is 60 minutes.
+The age limit of a deployment can be configured by passing a command line argument in the Dockerfile. 
+
+Default is 60 minutes.
 
 Example:
 ```
