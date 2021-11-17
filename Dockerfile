@@ -10,4 +10,4 @@ ADD . /app/
 RUN pip3 install -r requirements.txt
 
 #CMD python3 /app/deployment.py
-CMD ["python3", "/app/deployment.py"]
+CMD ["python3", "/app/check-deployments.py"]
