@@ -59,7 +59,7 @@ def delete_deployment(api, dep_name):
             grace_period_seconds = 5
         ),
     )
-    print("\n[INFO] deployment %s deleted." %(name))
+    print("\n[INFO] deployment %s deleted." %(dep_name))
 
 def check_pods(api, name):
     config.load_incluster_config()
