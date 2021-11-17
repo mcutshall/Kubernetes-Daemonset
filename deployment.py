@@ -1,6 +1,7 @@
 import datetime
 import pytz
 import time
+import sys
 from datetime import timezone, timedelta
 from kubernetes import client, config
 
@@ -25,7 +26,7 @@ def list_deployments(api):
     for i in ret.items:
         print("{:<15} {:<15} {:<10}" . format(i.metadata.name, i.metadata.namespace, i.spec.template.spec.containers[0].image))
 
-def check_deployment(api):
+def check_deployment(api, ageLimit):
     config.load_incluster_config()
     v1 = client.AppsV1Api()
     namespace = 'default'
@@ -43,6 +44,7 @@ def check_deployment(api):
         print("Age in seconds: %s" %(age.total_seconds()))
         print("Age in minutes: %s" %(age / timedelta(minutes=1)))
 
+        print("ageLimit: %s" %(ageLimit))
         #age = age / timedelta(minutes=1)
         #if(age >= ageLimit):
         #    delete_deployment(api, name)
@@ -79,11 +81,15 @@ def delete_pods(name):
 def hello_world():
     print("Hello World!")
 
-
 def main():
     config.load_incluster_config()
     apps_v1 = client.AppsV1Api()
-    ageLimit = 60
+    ageLimit = 0
+
+    if(len(sys.argv) != 2):
+        ageLimit = 60
+    else:
+        ageLimit = sys.argv[1]
 
     while(True) :
         list_deployments(apps_v1)
