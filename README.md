@@ -39,6 +39,6 @@ Default is 60 minutes.
 
 Example:
 ```
-      CMD ["python3", "/app/deployment.py", "120"]
+      CMD ["python3", "/app/check-deployments.py", "120"]
 ```
 This will set the ageLimit variable to 120 minutes.
