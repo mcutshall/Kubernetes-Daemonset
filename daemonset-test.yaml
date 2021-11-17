@@ -12,9 +12,20 @@ spec:
       labels:
         name: test-daemonset
     spec:
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
       nodeSelector:
         kubernetes.io/hostname: vagrant #node label selector. Determines which nodes the pod should be scheduled to.
       containers:
       - name: test-daemonset
         image: hello-python:latest
         imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+      terminationGracePeriod: 30
