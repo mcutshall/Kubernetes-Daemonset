@@ -79,9 +79,6 @@ def delete_pods(name):
         pretty = 'False'
     )
 
-def hello_world():
-    print("Hello World!")
-
 def main():
     config.load_incluster_config()
     apps_v1 = client.AppsV1Api()
@@ -95,7 +92,6 @@ def main():
     while(True) :
         list_deployments(apps_v1)
         check_deployment(apps_v1, ageLimit)
-        hello_world()
         #check_pods(apps_v1, "sv-nfs")
         time.sleep(30)
 
