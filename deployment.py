@@ -1,14 +1,13 @@
 import datetime
 import pytz
+import time
+from datetime import timezone, timedelta
 from kubernetes import client, config
-
-#DEPLOYMENT_NAME = "sv-kubernetes-example"
 
 def list_pods(api):
     config.load_incluster_config()
 
     v1 = client.AppsV1Api()
-    #ret = v1.list_pod_for_all_namespaces(watch=False)
     namespace = 'default'
     ret = v1.list_namespaced_pod(namespace)
 
@@ -19,33 +18,34 @@ def list_deployments(api):
     config.load_incluster_config()
 
     v1 = client.AppsV1Api()
-    #ret = v1.list_deployment_for_all_namespaces(watch=False)
     namespace = 'default'
     ret = v1.list_namespaced_deployment(namespace)
 
     print("{:<15} {:<15} {:<10}" . format('NAME', 'NAMESPACE', 'IMAGE'))
     for i in ret.items:
         print("{:<15} {:<15} {:<10}" . format(i.metadata.name, i.metadata.namespace, i.spec.template.spec.containers[0].image))
-        #print("%s\t\t%s\t%s" %(i.metadata.name, i.metadata.namespace, i.spec.template.spec.containers[0].image))
 
 def check_deployment(api):
     config.load_incluster_config()
-    api = client.AppsV1Api()
+    v1 = client.AppsV1Api()
     namespace = 'default'
 
-    #ret = v1.list_deployment_for_all_namespaces(watch=False)
-    api_instance = kubernetes.client.AppsV1Api(apt_client)
     ret = v1.list_namespaced_deployment(namespace)
 
-    name = ''
-    pretty = 'False'
-
+    today = datetime.datetime.now(timezone.utc)
     for i in ret.items:
         name = i.metadata.name
-        resp = api_instance.read_namespaced_deployment_status(name, namespace, pretty=pretty)
-        if(resp.status.conditions.status == False):
-            delete_deployment(api, name)
+        timestamp = i.metadata.creation_timestamp
+        print("Creation timestamp: %s" %(timestamp))
 
+        age = today - timestamp
+        print("Age: %s" %(age))
+        print("Age in seconds: %s" %(age.total_seconds()))
+        print("Age in minutes: %s" %(age / timedelta(minutes=1)))
+
+        #age = age / timedelta(minutes=1)
+        #if(age >= ageLimit):
+        #    delete_deployment(api, name)
 
 def delete_deployment(api, dep_name):
     response = api.delete_namespaced_deployment(
@@ -58,6 +58,23 @@ def delete_deployment(api, dep_name):
     )
     print("\n[INFO] deployment %s deleted." %(name))
 
+def check_pods(api, name):
+    config.load_incluster_config()
+    v1 = client.CoreV1Api()
+    namespace = "default"
+
+    ret = v1.list_namespaced_pod(namespace)
+    for i in ret.items:
+        if name in i.metadata.name:
+            delete_pods(i.metadata.name)
+
+def delete_pods(name):
+    api = client.CoreV1Api()
+    resp = api.delete_namespaced_pod(
+        name = name,
+        namespace = "default",
+        pretty = 'False'
+    )
 
 def hello_world():
     print("Hello World!")
@@ -66,11 +83,14 @@ def hello_world():
 def main():
     config.load_incluster_config()
     apps_v1 = client.AppsV1Api()
+    ageLimit = 60
 
-    list_deployments(apps_v1)
-    #check_deployment(apps_v1)
-
-    hello_world()
+    while(True) :
+        list_deployments(apps_v1)
+        check_deployment(apps_v1, ageLimit)
+        hello_world()
+        #check_pods(apps_v1, "sv-nfs")
+        time.sleep(30)
 
 if __name__ == "__main__":
     main()
