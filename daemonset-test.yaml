@@ -20,7 +20,7 @@ spec:
         kubernetes.io/hostname: vagrant #node label selector. Determines which nodes the pod should be scheduled to.
       containers:
       - name: test-daemonset
-        image: hello-python:latest
+        image: daemonset-python:latest
         imagePullPolicy: IfNotPresent
         resources:
           limits:
