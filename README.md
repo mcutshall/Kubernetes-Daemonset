@@ -14,7 +14,7 @@ General steps:
 ```
 2. Build the docker image locally
 ```
-      sudo docker build -f Dockerfile -t hello-python:latest .
+      sudo docker build -f Dockerfile -t daemonset-python:latest .
  ```     
 3. Create the daemonset
 ```
