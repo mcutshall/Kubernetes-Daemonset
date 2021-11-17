@@ -37,8 +37,9 @@ def check_deployment(api, ageLimit):
     for i in ret.items:
         name = i.metadata.name
         timestamp = i.metadata.creation_timestamp
-        print("Creation timestamp: %s" %(timestamp))
 
+        print("\nDeployment: %s" %(name))
+        print("Creation timestamp: %s" %(timestamp))
         age = today - timestamp
         print("Age: %s" %(age))
         print("Age in seconds: %s" %(age.total_seconds()))
