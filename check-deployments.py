@@ -47,7 +47,7 @@ def check_deployment(api, ageLimit):
 
         print("ageLimit: %s" %(ageLimit))
         #age = age / timedelta(minutes=1)
-        #if(age >= ageLimit):
+        #if(age >= float(ageLimit)):
         #    delete_deployment(api, name)
 
 def delete_deployment(api, dep_name):
