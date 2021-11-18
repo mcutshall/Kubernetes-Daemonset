@@ -84,10 +84,10 @@ def main():
     apps_v1 = client.AppsV1Api()
     ageLimit = 0
 
-    if(len(sys.argv) != 2):
-        ageLimit = 60
-    else:
+    if(len(sys.argv) == 2):
         ageLimit = sys.argv[1]
+    else:
+        ageLimit = 60
 
     while(True) :
         list_deployments(apps_v1)
